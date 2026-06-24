@@ -9,11 +9,16 @@
 
 ### 방법 A — GitHub Pages (추천 · 깔끔한 주소)
 이 브랜치를 `main`에 머지하면 `.github/workflows/pages.yml`이 자동으로 Pages를 켜고 배포합니다.
-배포 후 주소:
+배포 후 주소(머지하면 활성화):
 
-> **https://greencar-uxd.github.io/finixlab/**
+> **표지(전체):** https://greencar-uxd.github.io/finixlab/
+> **컨셉보드:** https://greencar-uxd.github.io/finixlab/concept
+> **웹사이트 프로토타입:** https://greencar-uxd.github.io/finixlab/website
 
 (자동 활성화가 안 될 경우: 저장소 **Settings → Pages → Source = GitHub Actions** 한 번만 선택)
+
+> `concept/`, `website/` 폴더의 `index.html`은 루트의 실제 파일을 iframe으로 감싸
+> 깔끔한 주소를 유지하면서 화면을 그대로 보여주는 래퍼입니다.
 
 ### 방법 B — 지금 바로 공유 (설정 없이, githack)
 public 저장소라 아래 주소를 그대로 보내면 바로 열립니다. `<COMMIT>` 자리에 최신 커밋 SHA를 넣으세요:
