@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Finixlab · Concept Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,200;0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+<style>
+  :root{
+    /* updated to match logo */
+    /* curated palette — web/detail page essentials + brand/package extensions */
+    --paper:#FFFFFF;       /* base — page background */
+    --pine-ink:#173830;    /* deepest, type weight */
+    --pine:#295B52;        /* logo green — primary */
+    --sage:#7B8B7A;        /* secondary / muted text */
+    --tan:#B8A580;         /* warm accent */
+    --cream:#F4EFE0;       /* warm surface — sections, cards */
+    --lab-red:#EE313E;     /* signal */
+
+    /* brand & package extension */
+    --olive:#37533D;       /* package matte green */
+    --bone:#FBF8F2;        /* paper insert / frosted glass */
+    --copper:#A77A4A;      /* foil stamp accent */
+
+    --ink: var(--pine-ink);
+    --serif: "Outfit", system-ui, sans-serif;
+    --sans-ko: "Pretendard", "Pretendard Variable", system-ui, sans-serif;
+
+    --rule: rgba(27,63,56,0.20);
+    --rule-soft: rgba(27,63,56,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  em, i{ font-style: normal; }
+  html,body{background:var(--paper);color:var(--ink)}
+  body{
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    line-height: 1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height: 100vh;
+  }
+
+  /* horizontal editorial spread */
+  .board{
+    max-width: 1480px;
+    margin: 32px auto;
+    padding: 56px 64px 72px;
+    position: relative;
+    background: var(--cream);
+    box-shadow: 0 1px 0 rgba(23,56,48,0.04);
+  }
+  @media (max-width: 960px){
+    .board{ padding: 40px 32px 56px; margin: 16px auto; }
+  }
+  @media (max-width: 640px){
+    .board{ padding: 32px 20px 48px; margin: 0 auto; }
+  }
+
+  /* ============== MASTHEAD ============== */
+  .mast{
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 48px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mast-left{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .tone-no{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--sage);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .tone-no .red-dot{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--lab-red);
+    display: inline-block;
+  }
+  .tone-no em{ font-style: normal; color: var(--ink); }
+  .wordmark{ display: block; }
+  .wordmark img{
+    display: block;
+    width: clamp(280px, 34vw, 460px);
+    height: auto;
+  }
+  .wordmark .sub{
+    display:block;
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.42em;
+    color: var(--sage);
+    margin-top: 16px;
+  }
+
+  .mast-right{
+    text-align: right;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--sage);
+    line-height: 1.7;
+    border-left: 1px solid var(--rule);
+    padding-left: 32px;
+    align-self: end;
+  }
+  .mast-right b{
+    font-weight: 400;
+    color: var(--ink);
+    font-style: normal;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .mood-bar{
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+  }
+  .mood-bar .line{
+    height: 1px; background: var(--rule-soft);
+  }
+  .mood-bar .text{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: normal;
+    font-size: clamp(15px, 1.6vw, 19px);
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    text-align: center;
+    max-width: 60ch;
+  }
+  .mood-bar .text .ko{
+    display: block;
+    font-style: normal;
+    font-family: var(--sans-ko);
+    color: var(--sage);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    margin-top: 6px;
+  }
+  @media (max-width: 720px){
+    .mood-bar{ grid-template-columns: 1fr; }
+    .mood-bar .line{ display: none; }
+  }
+
+  /* ============== GRID ============== */
+  .grid{
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: min-content;
+    gap: 40px 32px;
+  }
+
+  .panel{ min-width: 0; }
+  .panel-head{
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .panel-no{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--tan);
+  }
+  .panel-title{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .panel-title .ko{
+    font-family: var(--sans-ko);
+    color: var(--sage);
+    text-transform: none;
+    letter-spacing: 0.06em;
+    margin-left: 8px;
+    font-size: 11px;
+  }
+
+  /* placements — desktop */
+  .panel--keywords  { grid-column: span 5; }
+  .panel--palette   { grid-column: span 7; }
+  .panel--type      { grid-column: span 7; }
+  .panel--image     { grid-column: span 5; }
+  .panel--ingredient{ grid-column: span 7; }
+  .panel--principle { grid-column: span 5; }
+
+  @media (max-width: 960px){
+    .panel--keywords, .panel--palette,
+    .panel--type, .panel--image,
+    .panel--ingredient, .panel--principle{
+      grid-column: span 12;
+    }
+  }
+
+  /* ============== KEYWORDS ============== */
+  .tags{
+    display:flex; flex-wrap:wrap; gap: 10px 8px;
+  }
+  .tag{
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 9px 16px;
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    background: transparent;
+    display: inline-flex; align-items: baseline; gap: 8px;
+  }
+  .tag em{
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 300;
+    color: var(--sage);
+    letter-spacing: 0.02em;
+    font-size: 12px;
+  }
+  .tag.is-accent{
+    border-color: var(--lab-red);
+    color: var(--lab-red);
+  }
+  .tag.is-accent em{ color: var(--lab-red); opacity: 0.7; }
+
+  /* ============== PALETTE ============== */
+  .palette{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  .sw{
+    display:flex; flex-direction:column; gap: 10px;
+    min-width: 0;
+  }
+  .sw .chip{
+    height: 180px;
+    border: 1px solid var(--rule-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .sw .chip .role{
+    position: absolute;
+    top: 10px; left: 10px;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+  }
+  .sw .chip--light .role{ color: rgba(23,56,48,0.45); }
+  .sw .name{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.10em;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .sw .name .ko{
+    display: block;
+    font-family: var(--sans-ko);
+    color: var(--sage);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .sw .hex{
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--sage);
+  }
+
+  /* Packaging direction — sub-block, no HEX, directional only */
+  .pkg-direction{
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--rule);
+  }
+  .pkg-head{
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .pkg-head .label{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--tan);
+  }
+  .pkg-head .note{
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--sage);
+    letter-spacing: 0.02em;
+  }
+  .pkg-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .pkg-item{
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+  .pkg-swatch{
+    width: 28px; height: 28px;
+    border: 1px solid var(--rule-soft);
+  }
+  .pkg-text .pkg-name{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+  .pkg-text .pkg-desc{
+    display: block;
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--sage);
+    margin-top: 2px;
+  }
+  .pkg-caveat{
+    margin-top: 14px;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+    color: var(--tan);
+  }
+
+  @media (max-width: 720px){
+    .palette{ grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .sw .chip{ height: 150px; }
+    .pkg-list{ grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* ============== TYPOGRAPHY ============== */
+  .type-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 40px;
+  }
+  .type-block{ }
+  .type-block.is-full{ grid-column: span 2; }
+  .type-label{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-bottom: 12px;
+  }
+  .head-en{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(28px, 3.4vw, 46px);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .head-en em{
+    font-style: normal;
+    color: var(--sage);
+  }
+  .head-ko{
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: clamp(24px, 2.6vw, 38px);
+    letter-spacing: -0.005em;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .body-mix{
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--ink);
+    max-width: 60ch;
+    column-count: 2;
+    column-gap: 32px;
+  }
+  .body-mix em{
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 300;
+    color: var(--sage);
+  }
+  @media (max-width: 720px){
+    .type-grid{ grid-template-columns: 1fr; }
+    .type-block.is-full{ grid-column: span 1; }
+    .body-mix{ column-count: 1; }
+  }
+
+  /* ============== IMAGE ============== */
+  .img-slot{
+    aspect-ratio: 4/5;
+    background: var(--bone);
+    border: 1px solid var(--rule);
+    position:relative;
+    overflow: hidden;
+  }
+  .img-slot img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 58% center;
+    display: block;
+  }
+  .img-slot .corner{
+    position:absolute;
+    width: 14px; height: 14px;
+    border: 1px solid var(--bone);
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+  .img-slot .corner.tl{ top: 10px; left: 10px; border-right: none; border-bottom: none; }
+  .img-slot .corner.br{ bottom: 10px; right: 10px; border-left: none; border-top: none; }
+  .img-slot .stamp{
+    position: absolute;
+    bottom: 14px; left: 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    background: rgba(244,239,224,0.92);
+    padding: 6px 10px;
+    border: 1px solid var(--rule);
+  }
+  .img-caption{
+    margin-top: 14px;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--sage);
+    letter-spacing: 0.04em;
+  }
+
+  /* ============== INGREDIENTS ============== */
+  .ing-intro{
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--sage);
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+  .ing-list{ list-style: none; }
+  .ing-list li{
+    display:grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .ing-list li:last-child{ border-bottom: 1px solid var(--rule); }
+  .ing-idx{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--tan);
+    align-self: center;
+  }
+  .ing-name{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .ing-name .role{
+    display:block;
+    margin-top: 4px;
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--sage);
+    letter-spacing: 0.02em;
+  }
+  .ing-name .hero{
+    color: var(--lab-red);
+    font-style: normal;
+    margin-left: 8px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    vertical-align: 2px;
+  }
+  .ing-pct{
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .ing-pct sup{
+    font-size: 9px;
+    color: var(--tan);
+    letter-spacing: 0;
+    margin-left: 4px;
+    vertical-align: super;
+  }
+
+  /* ============== PRINCIPLE ============== */
+  .principle-body{
+    display: flex; flex-direction: column;
+    gap: 22px;
+    height: 100%;
+  }
+  .principle-body p{
+    font-family: var(--sans-ko);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+  .principle-body p em{
+    font-family: var(--serif);
+    font-style: normal;
+    color: var(--sage);
+  }
+  .principle-body .rule-list{
+    list-style: none;
+    display: grid; gap: 10px;
+  }
+  .principle-body .rule-list li{
+    display: grid; grid-template-columns: 18px 1fr;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .principle-body .rule-list li::before{
+    content: "";
+    width: 5px; height: 5px;
+    background: var(--lab-red);
+    margin-top: 9px;
+    transform: rotate(45deg);
+  }
+
+  /* ============== FOOTER ============== */
+  .colophon{
+    margin-top: 64px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+  .colophon .center{
+    display: flex; align-items: center; gap: 12px;
+    justify-content: center;
+  }
+  .colophon .right{ text-align: right; }
+  .colophon .red-dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--lab-red);
+  }
+
+  /* ============== EXPORT BUTTON ============== */
+  .export-btn{
+    position: fixed;
+    bottom: 24px; right: 24px;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 18px;
+    background: var(--pine-ink);
+    color: var(--cream);
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 12px rgba(23,56,48,0.18);
+  }
+  .export-btn:hover{ opacity: 0.92; transform: translateY(-1px); }
+  .export-btn:disabled{ opacity: 0.5; cursor: wait; }
+  .export-btn .dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--lab-red);
+  }
+  @media print{ .export-btn{ display: none; } }
+</style>
+</head>
+<body>
+  <main class="board">
+
+    <!-- MASTHEAD -->
+    <header class="mast">
+      <div class="mast-left">
+        <div class="tone-no">
+          <span class="red-dot"></span>
+          Tone Board <em>N° 01 / 2026</em>
+        </div>
+        <h1 class="wordmark">
+          <img src="assets/fnxlab-logo.png" alt="Finixlab" />
+          <span class="sub">피 닉 스 랩</span>
+        </h1>
+      </div>
+      <aside class="mast-right">
+        <b>Concept Direction</b>
+        Brand · Web<br/>
+        SS 26 — KR · CN · JP · VN<br/>
+        Slow Aging · Clinical Peptide Care
+      </aside>
+    </header>
+
+    <div class="mood-bar">
+      <div class="line"></div>
+      <div class="text">
+        A quiet pharmacy of light — clinical peptides translated into a slow, daily ritual.
+        <span class="ko">햇살 든 약국의 책장처럼, 임상의 정직함을 매일의 결로 옮기다.</span>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <div class="grid">
+
+      <!-- KEYWORDS -->
+      <section class="panel panel--keywords">
+        <div class="panel-head">
+          <span class="panel-no">01</span>
+          <span class="panel-title">Mood Keywords <span class="ko">무드 키워드</span></span>
+        </div>
+        <div class="tags">
+          <span class="tag">Slow Aging <em>슬로우</em></span>
+          <span class="tag">Clinical Calm <em>임상</em></span>
+          <span class="tag">Quiet Ritual <em>리츄얼</em></span>
+          <span class="tag">Refined Honesty <em>정직</em></span>
+          <span class="tag">Natural Luminance <em>광채</em></span>
+          <span class="tag is-accent">Notox <em>보톡스 인 어 보틀</em></span>
+        </div>
+      </section>
+
+      <!-- PALETTE -->
+      <section class="panel panel--palette">
+        <div class="panel-head">
+          <span class="panel-no">02</span>
+          <span class="panel-title">Palette <span class="ko">컬러 팔레트</span></span>
+        </div>
+        <div class="palette">
+          <div class="sw">
+            <div class="chip" style="background:#173830"><span class="role">type</span></div>
+            <div class="name">Pine Ink<span class="ko">파인 잉크</span></div>
+            <div class="hex">#173830</div>
+          </div>
+          <div class="sw">
+            <div class="chip" style="background:#295B52"><span class="role">primary</span></div>
+            <div class="name">Pine<span class="ko">파인 그린</span></div>
+            <div class="hex">#295B52</div>
+          </div>
+          <div class="sw">
+            <div class="chip" style="background:#7B8B7A"><span class="role">sub</span></div>
+            <div class="name">Sage<span class="ko">세이지</span></div>
+            <div class="hex">#7B8B7A</div>
+          </div>
+          <div class="sw">
+            <div class="chip chip--light" style="background:#B8A580"><span class="role">accent</span></div>
+            <div class="name">Linen Tan<span class="ko">리넨 탄</span></div>
+            <div class="hex">#B8A580</div>
+          </div>
+          <div class="sw">
+            <div class="chip chip--light" style="background:#F4EFE0;border-color:var(--rule)"><span class="role">surface</span></div>
+            <div class="name">Cream<span class="ko">크림</span></div>
+            <div class="hex">#F4EFE0</div>
+          </div>
+          <div class="sw">
+            <div class="chip" style="background:#EE313E"><span class="role">signal</span></div>
+            <div class="name">Lab Red<span class="ko">랩 레드</span></div>
+            <div class="hex">#EE313E</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TYPOGRAPHY -->
+      <section class="panel panel--type">
+        <div class="panel-head">
+          <span class="panel-no">03</span>
+          <span class="panel-title">Typography <span class="ko">타이포그래피</span></span>
+        </div>
+        <div class="type-grid">
+          <div class="type-block">
+            <div class="type-label">Header — EN · Outfit Light</div>
+            <div class="head-en">Real Efficacy,<br/><em>Quietly Delivered.</em></div>
+          </div>
+          <div class="type-block">
+            <div class="type-label">Header — KO · Pretendard 300</div>
+            <div class="head-ko">정직한 농도,<br/>조용한 효능.</div>
+          </div>
+          <div class="type-block is-full">
+            <div class="type-label">Body — Mixed Script</div>
+            <p class="body-mix">
+              시술의 본질을 매일의 루틴으로. <em>a quiet ritual</em> 이 살갗 위에 머문다.
+              농도는 정직하게, 손길은 가장 조용하게 — 피부가 스스로 빛을 되찾는
+              시간을 위해 처방된 한 잔의 처방전. <em>Botox in a bottle, written in lower case.</em>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMAGE -->
+      <section class="panel panel--image">
+        <div class="panel-head">
+          <span class="panel-no">04</span>
+          <span class="panel-title">Still Life <span class="ko">이미지 영역</span></span>
+        </div>
+        <div class="img-slot">
+          <img src="assets/fnxlab-product.jpg" alt="Finixlab Peptosome Skin Booster" />
+          <span class="corner tl"></span>
+          <span class="corner br"></span>
+          <span class="stamp">PEPTOSOME · 50ML</span>
+        </div>
+        <div class="img-caption">
+          Soft daylight, bone-white surface, single bottle — no styling beyond what the bottle already says.
+        </div>
+      </section>
+
+      <!-- INGREDIENTS -->
+      <section class="panel panel--ingredient">
+        <div class="panel-head">
+          <span class="panel-no">05</span>
+          <span class="panel-title">Formulation <span class="ko">성분 리스트 샘플</span></span>
+        </div>
+        <p class="ing-intro">A short list, plainly stated. Concentration before narrative.</p>
+        <ul class="ing-list">
+          <li>
+            <span class="ing-idx">01</span>
+            <div class="ing-name">
+              VAMTOXIN™ Peptide <span class="hero">hero</span>
+              <span class="role">SNARE 억제 펩타이드 · 표정 주름 완화</span>
+            </div>
+            <div class="ing-pct">2.0 <sup>%</sup></div>
+          </li>
+          <li>
+            <span class="ing-idx">02</span>
+            <div class="ing-name">
+              Spicule Complex
+              <span class="role">미세 스피큘 · 유효성분 전달 보조</span>
+            </div>
+            <div class="ing-pct">0.5 <sup>%</sup></div>
+          </li>
+          <li>
+            <span class="ing-idx">03</span>
+            <div class="ing-name">
+              Centella Asiatica
+              <span class="role">병풀 추출물 · 진정 및 장벽 보조</span>
+            </div>
+            <div class="ing-pct">0.5 <sup>%</sup></div>
+          </li>
+          <li>
+            <span class="ing-idx">04</span>
+            <div class="ing-name">
+              Niacinamide
+              <span class="role">나이아신아마이드 · 톤 정돈 · 광채</span>
+            </div>
+            <div class="ing-pct">4.0 <sup>%</sup></div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- PRINCIPLE -->
+      <section class="panel panel--principle">
+        <div class="panel-head">
+          <span class="panel-no">06</span>
+          <span class="panel-title">Layout Principle <span class="ko">레이아웃 원칙</span></span>
+        </div>
+        <div class="principle-body">
+          <p>
+            좁은 컬럼, 명확한 그리드, 풍부한 본문.
+            <em>Honesty in concentration, quiet in composition.</em>
+            둥근 모서리는 태그에만, 나머지는 직각으로.
+          </p>
+          <ul class="rule-list">
+            <li><span>Cream 배경 · Pine Green 텍스트 — 콘트라스트는 조용하게.</span></li>
+            <li><span>Lab Red는 5% 미만의 면적에만 — 시그널, 강조, 결정.</span></li>
+            <li><span>이미지 한 컷에 한 가지 이야기. 스타일링은 제거가 우선.</span></li>
+            <li><span>영문 이탤릭은 시(詩)적 액센트, 본문 90% 이상은 라이트 웨이트.</span></li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="colophon">
+      <span>Finixlab · 피닉스랩</span>
+      <span class="center">
+        <span class="red-dot"></span>
+        Concept Board · 01
+        <span class="red-dot"></span>
+      </span>
+      <span class="right">Real Efficacy, Quietly Delivered.</span>
+    </footer>
+
+  </main>
+
+  <button class="export-btn" id="exportBtn" type="button">
+    <span class="dot"></span>
+    <span class="label">Export PNG</span>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js"></script>
+  <script>
+    (function(){
+      const btn = document.getElementById('exportBtn');
+      const label = btn.querySelector('.label');
+      btn.addEventListener('click', async () => {
+        if (!window.htmlToImage){ label.textContent = 'Library loading…'; return; }
+        const board = document.querySelector('.board');
+        const original = label.textContent;
+        btn.disabled = true;
+        label.textContent = 'Rendering…';
+        try{
+          const dataUrl = await window.htmlToImage.toPng(board, {
+            pixelRatio: 2,
+            backgroundColor: '#ffffff',
+            width: board.offsetWidth,
+            height: board.offsetHeight
+          });
+          const a = document.createElement('a');
+          a.href = dataUrl;
+          a.download = 'finixlab-concept-board.png';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          label.textContent = 'Downloaded ✓';
+          setTimeout(() => { label.textContent = original; btn.disabled = false; }, 1800);
+        }catch(e){
+          console.error(e);
+          label.textContent = 'Failed — retry';
+          setTimeout(() => { label.textContent = original; btn.disabled = false; }, 2200);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
