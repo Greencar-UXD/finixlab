@@ -32,6 +32,7 @@ const MHeader = ({ title }) => {
         position: 'fixed', inset: 0, zIndex: 100,
         background: FNX.pineInk, color: FNX.cream,
         padding: 'clamp(20px, 6vw, 30px)', display: 'flex', flexDirection: 'column',
+        height: '100dvh', overflowY: 'auto',
       }}>
         <div style={{ display: 'grid', gridTemplateColumns: '24px 1fr 24px', alignItems: 'center', marginBottom: 'clamp(16px, 5vw, 32px)' }}>
           <span style={{ fontFamily: FNX.mono, fontSize: 11, color: 'rgba(244,239,224,0.55)', letterSpacing: '0.18em' }}>MENU</span>
