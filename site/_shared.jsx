@@ -65,9 +65,98 @@ const fnxRule  = (alpha = 0.18) => `rgba(23,56,48,${alpha})`;
 const fnxCream = (alpha = 1)    => `rgba(244,239,224,${alpha})`;   // cream on dark surfaces
 const ucLetters = (s) => s.split('').join(' ');
 
+// ============ i18n — EN / KO / JA ============
+// Tiny external store. Components subscribe via useLocale(); copy is authored
+// inline as { en, ko, ja } objects and resolved with t() at render time.
+const I18N = {
+  lang: (function () { try { return localStorage.getItem('fnx-lang') || 'en'; } catch (e) { return 'en'; } })(),
+  langs: ['en', 'ko', 'ja'],
+  labels:    { en: 'EN',      ko: 'KO',     ja: 'JA' },        // short header chip
+  langNames: { en: 'English', ko: '한국어', ja: '日本語' },    // dropdown entries
+  listeners: new Set(),
+  setLang(l) {
+    if (!this.langs.includes(l) || l === this.lang) return;
+    this.lang = l;
+    try { localStorage.setItem('fnx-lang', l); } catch (e) {}
+    try { document.documentElement.lang = l; } catch (e) {}
+    this.listeners.forEach(fn => fn());
+  },
+  subscribe(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); },
+};
+try { document.documentElement.lang = I18N.lang; } catch (e) {}
+
+// Resolve a trilingual value for the CURRENT language (en fallback).
+// Accepts a {en,ko,ja} object or a plain string (returned as-is).
+const tr = (v) => {
+  if (v == null) return '';
+  if (typeof v !== 'object') return v;
+  return v[I18N.lang] != null ? v[I18N.lang] : (v.en != null ? v.en : '');
+};
+
+// Hook: subscribes the calling component to language changes and returns a
+// bound t() plus the current lang and a setter. Every component that renders
+// translatable copy must call this so it re-renders on language switch.
+function useLocale() {
+  const [, force] = React.useReducer(x => x + 1, 0);
+  React.useEffect(() => I18N.subscribe(force), []);
+  return { lang: I18N.lang, t: tr, setLang: (l) => I18N.setLang(l), langs: I18N.langs };
+}
+
+// ============ LANGUAGE SWITCHER ============
+// Used in both desktop header and the mobile menu. `up` opens the menu upward.
+function LangSwitcher({ sub = FNX.sage, up = false, align = 'right' }) {
+  const { lang, setLang, langs } = useLocale();
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, [open]);
+  return (
+    <span ref={ref} style={{ position: 'relative', display: 'inline-flex' }}>
+      <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label="Change language"
+        onClick={(e) => { e.stopPropagation(); setOpen(o => !o); }}
+        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+          color: sub, fontFamily: FNX.serif, fontSize: 11, letterSpacing: '0.14em' }}>
+        {I18N.labels[lang]} ▾
+      </button>
+      {open && (
+        <ul role="listbox" style={{
+          position: 'absolute', [up ? 'bottom' : 'top']: 'calc(100% + 12px)',
+          [align]: 0, listStyle: 'none', margin: 0, padding: 6, minWidth: 132, zIndex: 300,
+          background: FNX.cream, border: `1px solid ${fnxRule(0.18)}`,
+          boxShadow: '0 10px 30px rgba(23,56,48,0.20)',
+        }}>
+          {langs.map(l => (
+            <li key={l} role="option" aria-selected={l === lang}>
+              <button type="button" onClick={(e) => { e.stopPropagation(); setLang(l); setOpen(false); }}
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
+                  background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+                  padding: '9px 12px', fontFamily: FNX.sans, fontSize: 13, gap: 18,
+                  color: FNX.pineInk, fontWeight: l === lang ? 500 : 300 }}>
+                <span>{I18N.langNames[l]}</span>
+                <span style={{ fontFamily: FNX.mono, fontSize: 10, letterSpacing: '0.12em', color: l === lang ? FNX.labRed : FNX.sage }}>{I18N.labels[l]}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </span>
+  );
+}
+
 // ============ HEADER ============
 // variant: 'cream' (default) | 'pine' | 'transparent'
-function SiteHeader({ variant = 'cream', sticky = false, lang = 'EN' }) {
+function SiteHeader({ variant = 'cream', sticky = false }) {
+  const { t } = useLocale();
+  const nav = [
+    { key: 'about',   label: { en: 'About',   ko: '브랜드',     ja: 'ブランド' } },
+    { key: 'science', label: { en: 'Science', ko: '사이언스',   ja: 'サイエンス' } },
+    { key: 'shop',    label: { en: 'Shop',    ko: '제품',       ja: 'ショップ' } },
+    { key: 'journal', label: { en: 'Journal', ko: '저널',       ja: 'ジャーナル' } },
+  ];
   const isPine = variant === 'pine';
   const fg = isPine ? FNX.cream : FNX.pineInk;
   const subFg = isPine ? fnxCream(0.82) : FNX.sage;
@@ -100,16 +189,14 @@ function SiteHeader({ variant = 'cream', sticky = false, lang = 'EN' }) {
         fontFamily: FNX.serif, fontWeight: 300, fontSize: 13,
         letterSpacing: '0.16em', textTransform: 'uppercase',
       }}>
-        {['About', 'Science', 'Shop', 'Journal'].map(l =>
-          <a key={l} href={`#/${l.toLowerCase()}`} style={{ color: fg, textDecoration: 'none' }}>{l}</a>
+        {nav.map(n =>
+          <a key={n.key} href={`#/${n.key}`} style={{ color: fg, textDecoration: 'none' }}>{t(n.label)}</a>
         )}
       </nav>
 
       {/* Actions */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 12 }}>
-        <span style={{ color: subFg, fontFamily: FNX.serif, fontSize: 11, letterSpacing: '0.14em' }}>
-          {lang} ▾
-        </span>
+        <LangSwitcher sub={subFg} />
         <span style={{ width: 1, height: 14, background: ruleColor, marginLeft: 4 }}/>
         <a href="#/search" aria-label="Search" style={{ color: fg, textDecoration: 'none', display: 'inline-flex', padding: 4 }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
@@ -128,6 +215,7 @@ function SiteHeader({ variant = 'cream', sticky = false, lang = 'EN' }) {
 
 // ============ FOOTER ============
 function SiteFooter({ variant = 'pine' }) {
+  const { t } = useLocale();
   const isPine = variant === 'pine';
   const bg = isPine ? FNX.pineInk : FNX.cream;
   const fg = isPine ? FNX.cream : FNX.pineInk;
@@ -135,11 +223,36 @@ function SiteFooter({ variant = 'pine' }) {
   const rule = isPine ? fnxCream(0.12) : fnxRule(0.14);
 
   const cols = [
-    { t:'Shop',  items:['Peptosome Skin Booster','Notox Cream · FW 26','Sets & Rituals','Sample Trials'] },
-    { t:'Care',  items:['Customer Care','Order & Shipping','Returns','Product FAQ'] },
-    { t:'Brand', items:['Our Science','Sustainability','Press','Partners & Clinics'] },
-    { t:'Connect', items:['Instagram','YouTube','Store Locator'] },
+    { t: { en: 'Shop', ko: '제품', ja: 'ショップ' }, items: [
+      { en: 'Peptosome Skin Booster', ko: '펩토좀 스킨 부스터',  ja: 'ペプトソーム スキンブースター' },
+      { en: 'Notox Cream · FW 26',    ko: 'Notox 크림 · FW 26',  ja: 'Notox クリーム · FW 26' },
+      { en: 'Sets & Rituals',         ko: '세트 & 리추얼',        ja: 'セット & リチュアル' },
+      { en: 'Sample Trials',          ko: '샘플 체험',            ja: 'サンプル トライアル' },
+    ] },
+    { t: { en: 'Care', ko: '고객 지원', ja: 'サポート' }, items: [
+      { en: 'Customer Care',    ko: '고객 센터',    ja: 'カスタマーケア' },
+      { en: 'Order & Shipping', ko: '주문 & 배송',  ja: '注文 & 配送' },
+      { en: 'Returns',          ko: '반품 & 교환',  ja: '返品' },
+      { en: 'Product FAQ',      ko: '제품 FAQ',     ja: '製品 FAQ' },
+    ] },
+    { t: { en: 'Brand', ko: '브랜드', ja: 'ブランド' }, items: [
+      { en: 'Our Science',        ko: '사이언스',        ja: 'サイエンス' },
+      { en: 'Sustainability',     ko: '지속가능성',      ja: 'サステナビリティ' },
+      { en: 'Press',              ko: '프레스',          ja: 'プレス' },
+      { en: 'Partners & Clinics', ko: '파트너 & 클리닉', ja: 'パートナー & クリニック' },
+    ] },
+    { t: { en: 'Connect', ko: '채널', ja: 'チャンネル' }, items: [
+      { en: 'Instagram',     ko: '인스타그램', ja: 'Instagram' },
+      { en: 'YouTube',       ko: '유튜브',     ja: 'YouTube' },
+      { en: 'Store Locator', ko: '매장 찾기',  ja: '店舗検索' },
+    ] },
   ];
+  const bottomLinks = [
+    { key: 'privacy', label: { en: 'Privacy', ko: '개인정보', ja: 'プライバシー' } },
+    { key: 'terms',   label: { en: 'Terms',   ko: '이용약관', ja: '利用規約' } },
+    { key: 'cookies', label: { en: 'Cookies', ko: '쿠키',     ja: 'クッキー' } },
+  ];
+  const tagline = { en: 'Real Efficacy, Quietly Delivered.', ko: '정직한 효능을, 조용히 전합니다.', ja: '確かな効果を、静かに届ける。' };
 
   return (
     <footer style={{ background: bg, color: fg, padding: '40px 40px 32px', fontFamily: FNX.sans, fontWeight: 300 }}>
@@ -152,17 +265,17 @@ function SiteFooter({ variant = 'pine' }) {
         <div>
           <img src="assets/fnxlab-logo.png" alt="Finixlab" style={{ height: 24, filter: isPine ? 'brightness(0) invert(1)' : 'none', opacity: 0.92, marginBottom: 18 }} />
           <p style={{ fontSize: 12, lineHeight: 1.7, color: subFg, maxWidth: '32ch' }}>
-            Real Efficacy, Quietly Delivered.
+            {t(tagline)}
           </p>
           <p style={{ fontSize: 12, lineHeight: 1.7, color: subFg, marginTop: 16 }}>
-            Finixlab · Paju, Gyeonggi · KR · Ships globally
+            {t({ en: 'Finixlab · Paju, Gyeonggi · KR · Ships globally', ko: 'Finixlab · 경기 파주 · 대한민국 · 전 세계 배송', ja: 'Finixlab · 京畿道 坡州 · 韓国 · 世界配送' })}
           </p>
         </div>
-        {cols.map(c => (
-          <div key={c.t}>
-            <div style={{ fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: subFg, marginBottom: 18 }}>{c.t}</div>
+        {cols.map((c, ci) => (
+          <div key={ci}>
+            <div style={{ fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: subFg, marginBottom: 18 }}>{t(c.t)}</div>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 10 }}>
-              {c.items.map(i => <li key={i} style={{ fontSize: 13 }}>{i}</li>)}
+              {c.items.map((i, ii) => <li key={ii} style={{ fontSize: 13 }}>{t(i)}</li>)}
             </ul>
           </div>
         ))}
@@ -176,11 +289,11 @@ function SiteFooter({ variant = 'pine' }) {
       }}>
         <span>© 2026 Finixlab Co., Ltd.</span>
         <span style={{ display:'flex', gap: 18 }}>
-          <a href="#/privacy" style={{ color: subFg, textDecoration: 'none' }}>Privacy</a>
-          <a href="#/terms" style={{ color: subFg, textDecoration: 'none' }}>Terms</a>
-          <a href="#/cookies" style={{ color: subFg, textDecoration: 'none' }}>Cookies</a>
+          {bottomLinks.map(b => (
+            <a key={b.key} href={`#/${b.key}`} style={{ color: subFg, textDecoration: 'none' }}>{t(b.label)}</a>
+          ))}
         </span>
-        <span>Real Efficacy, Quietly Delivered.</span>
+        <span>{t(tagline)}</span>
       </div>
     </footer>
   );
@@ -211,7 +324,10 @@ function Btn({ children, kind = 'primary', size = 'md', style = {}, full = false
 }
 
 // ============ SLOGAN / EDITORIAL ============
-function Slogan({ size = 'md', align = 'left', color = FNX.pineInk, en = 'Real Efficacy,\nQuietly Delivered.', ko = '정직한 농도, 조용한 효능.' }) {
+function Slogan({ size = 'md', align = 'left', color = FNX.pineInk,
+  head = { en: 'Real Efficacy,\nQuietly Delivered.', ko: '정직한 농도,\n조용한 효능.', ja: '確かな効果を、\n静かに。' },
+  sub  = { en: 'Clinic-grade peptide care, as a daily ritual.', ko: '시술의 본질을 매일의 루틴으로.', ja: '施術の本質を、毎日のルーティンへ。' } }) {
+  const { t, lang } = useLocale();
   const sizes = {
     sm: { en: 36, ko: 16 },
     md: { en: 56, ko: 19 },
@@ -225,11 +341,11 @@ function Slogan({ size = 'md', align = 'left', color = FNX.pineInk, en = 'Real E
         margin: 0, fontFamily: FNX.serif, fontWeight: 300,
         fontSize: s.en, lineHeight: 1.05, letterSpacing: '-0.01em',
         whiteSpace: 'pre-line',
-      }}>{en}</h1>
-      <p lang="ko" style={{
+      }}>{t(head)}</h1>
+      <p lang={lang} style={{
         margin: '20px 0 0', fontFamily: FNX.sans, fontWeight: 300,
         fontSize: s.ko, letterSpacing: '-0.02em', opacity: 0.7,
-      }}>{ko}</p>
+      }}>{t(sub)}</p>
     </div>
   );
 }
@@ -355,6 +471,7 @@ function ToastHost() {
 // expose globally
 Object.assign(window, {
   FNX, T, fnxRule, fnxCream, ucLetters,
+  I18N, tr, useLocale, LangSwitcher,
   SiteHeader, SiteFooter, Btn, Slogan, ProductShot,
   MonoTag, Tag, RuleLabel, Section, VRule, ToastHost,
 });
