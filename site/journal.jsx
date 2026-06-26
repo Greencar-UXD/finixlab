@@ -45,13 +45,14 @@ const JournalPage = () => {
       {/* CATEGORY BAR */}
       <div style={{ background: FNX.cream, padding: '20px 40px', borderBottom: `1px solid ${fnxRule(0.18)}`, display: 'flex', gap: 18, alignItems: 'center', overflow: 'auto', fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
         {cats.map((c, i) => (
-          <span key={c} style={{
+          <button type="button" key={c} style={{
+            font: 'inherit',
             padding: '8px 16px', borderRadius: 999,
             border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`,
             color: i === 0 ? FNX.pineInk : FNX.sage,
             background: i === 0 ? FNX.bone : 'transparent',
             cursor: 'pointer', whiteSpace: 'nowrap',
-          }}>{c}</span>
+          }}>{c}</button>
         ))}
         <span style={{ flex: 1 }}/>
         <span style={{ color: FNX.sage, fontFamily: FNX.mono, fontSize: 12, letterSpacing: '0.14em' }}>{articles.length + 1} ENTRIES</span>
@@ -100,7 +101,9 @@ const JournalPage = () => {
               <div style={{ aspectRatio: '4/5', overflow: 'hidden', position: 'relative', background: FNX.bone, border: `1px solid ${fnxRule(0.12)}` }}>
                 <img src={a.img} alt={a.h} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: a.pos }} />
               </div>
-              <h3 style={{ margin: '10px 0 8px', fontFamily: FNX.serif, fontWeight: 300, fontSize: 24, lineHeight: 1.2, letterSpacing: '-0.01em' }}>{a.h}</h3>
+              <h3 style={{ margin: '10px 0 8px', fontFamily: FNX.serif, fontWeight: 300, fontSize: 24, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+                <a href="#/journal" data-go="journal" style={{ color: 'inherit', textDecoration: 'none' }}>{a.h}</a>
+              </h3>
               <span style={{ fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.14em', color: FNX.sage, textTransform: 'uppercase', marginTop: 8 }}>Read →</span>
             </article>
           ))}
@@ -109,14 +112,15 @@ const JournalPage = () => {
         {/* pagination */}
         <div style={{ marginTop: 56, display: 'flex', justifyContent: 'center', gap: 8, fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.14em' }}>
           {['‹', '01', '02', '03', '04', '›'].map((p, i) => (
-            <span key={i} style={{
+            <button type="button" key={i} style={{
+              font: 'inherit',
               minWidth: 36, height: 36, padding: '0 10px',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               border: `1px solid ${i === 1 ? FNX.pineInk : fnxRule(0.18)}`,
               color: i === 1 ? FNX.pineInk : FNX.sage,
               background: i === 1 ? FNX.bone : 'transparent',
               cursor: 'pointer',
-            }}>{p}</span>
+            }}>{p}</button>
           ))}
         </div>
       </Section>

@@ -175,10 +175,10 @@ function SiteFooter({ variant = 'pine' }) {
 }
 
 // ============ BUTTONS & UI ATOMS ============
-function Btn({ children, kind = 'primary', size = 'md', style = {}, full = false }) {
+function Btn({ children, kind = 'primary', size = 'md', style = {}, full = false, ...rest }) {
   const [hover, setHover] = React.useState(false);
   const base = {
-    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    display: 'inline-flex', boxSizing: 'border-box', alignItems: 'center', justifyContent: 'center', gap: 8,
     whiteSpace: 'nowrap',
     fontFamily: FNX.serif, fontWeight: 400, letterSpacing: '0.16em',
     textTransform: 'uppercase', cursor: 'pointer', border: '1px solid currentColor',
@@ -195,7 +195,7 @@ function Btn({ children, kind = 'primary', size = 'md', style = {}, full = false
     ghost:    { background: hover ? 'rgba(23,56,48,0.05)' : 'transparent', color: 'currentColor' },
     accent:   { background: hover ? '#D5232F' : FNX.labRed, color: FNX.cream, borderColor: hover ? '#D5232F' : FNX.labRed },
   };
-  return <a href="#" className="btn" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ ...base, ...variants[kind], ...style }}>{children}</a>;
+  return <button type="button" className="btn" {...rest} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onFocus={() => setHover(true)} onBlur={() => setHover(false)} style={{ ...base, ...variants[kind], ...style }}>{children}</button>;
 }
 
 // ============ SLOGAN / EDITORIAL ============

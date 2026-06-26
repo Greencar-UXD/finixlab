@@ -43,7 +43,7 @@ const CartPage = () => {
                       <span style={{ fontFamily: FNX.serif, fontSize: 14, minWidth: 14, textAlign: 'center' }}>{it.qty}</span>
                       <button style={{ background: 'none', border: 'none', fontSize: 16, padding: '4px 6px', cursor: 'pointer', color: FNX.pineInk }}>+</button>
                     </div>
-                    <a href="#" style={{ ...T.caption, color: FNX.sage, textDecoration: 'underline' }}>Remove</a>
+                    <button type="button" style={{ ...T.caption, color: FNX.sage, textDecoration: 'underline', background: 'none', border: 'none', padding: 0, cursor: 'pointer', font: 'inherit' }}>Remove</button>
                   </div>
                 </div>
                 <div style={{ fontFamily: FNX.serif, fontSize: 20, letterSpacing: '0.02em' }}>{krw(it.p * it.qty)}</div>
@@ -160,7 +160,6 @@ const inputStyle = {
   background: '#FBF8F2', border: `1px solid ${fnxRule(0.18)}`,
   fontFamily: '"Pretendard Variable", "Pretendard", system-ui, sans-serif',
   fontSize: 14, color: '#173830',
-  outline: 'none',
 };
 
 // ============ SEARCH RESULTS ============
@@ -185,9 +184,9 @@ const SearchPage = () => {
           <span aria-hidden="true" style={{ position: 'absolute', left: 22, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, display: 'inline-flex' }}>
             <svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
           </span>
-          <span role="button" aria-label="Clear search" style={{ position: 'absolute', right: 22, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex' }}>
+          <button type="button" aria-label="Clear search" style={{ position: 'absolute', right: 22, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex', border: 'none', background: 'none', padding: 0 }}>
             <svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-          </span>
+          </button>
         </div>
         <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
           {['All', 'Products', 'Journal', 'Science', 'Ingredients'].map((f, i) => (
@@ -399,9 +398,9 @@ const SearchMobile = () => {
           <span aria-hidden="true" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, display: 'inline-flex' }}>
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
           </span>
-          <span role="button" aria-label="Clear search" style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex' }}>
+          <button type="button" aria-label="Clear search" style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex', border: 'none', background: 'none', padding: 0 }}>
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-          </span>
+          </button>
         </div>
         <div style={{ marginTop: 12, display: 'flex', gap: 6, overflowX: 'auto' }}>
           {['All','Products','Journal','Science','Ingredients'].map((f, i) => (
