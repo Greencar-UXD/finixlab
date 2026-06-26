@@ -123,7 +123,7 @@ const HomeMobile = () => {
               </div>
               <p style={{ margin: '10px 0 0', fontSize: 13, lineHeight: 1.7, color: FNX.sage }}>{p.d}</p>
               <div style={{ marginTop: 16, display: 'flex', gap: 10 }}>
-                <Btn kind="primary" full data-go="cart">Add to Bag</Btn>
+                <Btn kind="primary" full onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag</Btn>
                 <Btn kind="ghost" size="md" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }} data-go={p.go}>Detail →</Btn>
               </div>
             </article>

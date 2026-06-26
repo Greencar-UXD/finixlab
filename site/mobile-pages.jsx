@@ -178,7 +178,7 @@ const ShopMobile = () => {
                     <Btn kind="ghost" full size="md" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }}>Notify Me →</Btn>
                   ) : (
                     <React.Fragment>
-                      <Btn kind="primary" full>Add to Bag</Btn>
+                      <Btn kind="primary" full onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag</Btn>
                       <Btn kind="ghost" size="md" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }}>Detail →</Btn>
                     </React.Fragment>
                   )}
@@ -270,7 +270,7 @@ const ProductMobile = () => (
         <div style={{ fontFamily: FNX.serif, fontSize: 11, color: FNX.sage, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Peptosome · 50ml</div>
         <div style={{ fontFamily: FNX.serif, fontSize: 18, letterSpacing: '0.02em', marginTop: 2 }}>₩96,000 <span style={{ fontSize: '0.65em', opacity: 0.6 }}>/ ~$72</span></div>
       </div>
-      <Btn kind="primary" size="md">Add to Bag</Btn>
+      <Btn kind="primary" size="md" onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag</Btn>
     </div>
 
     {/* HERO — gallery */}
@@ -327,7 +327,7 @@ const ProductMobile = () => (
       </div>
 
       <div style={{ marginTop: 20, display: 'grid', gap: 10 }}>
-        <Btn kind="primary" size="lg" full>Add to Bag · ₩96,000</Btn>
+        <Btn kind="primary" size="lg" full onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag · ₩96,000</Btn>
         <Btn kind="ghost" full style={{ color: FNX.pineInk, borderColor: FNX.pineInk }}>Subscribe & Save 15%</Btn>
       </div>
 

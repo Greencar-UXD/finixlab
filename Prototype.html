@@ -237,7 +237,7 @@
       const isMobile = useMobile();
       const routes = isMobile ? mobileRoutes : desktopRoutes;
       const Page = routes[hash] || (isMobile ? mobileRoutes['404'] : desktopRoutes['404']);
-      return <main id="main"><Page /></main>;
+      return <><main id="main"><Page /></main><ToastHost /></>;
     };
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);

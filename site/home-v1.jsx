@@ -109,7 +109,7 @@ const HomeV1 = () => {
               </div>
             </div>
             <div style={{ marginTop: 24, display: 'flex', gap: 10 }}>
-              <Btn kind="primary" full style={{}} data-go="cart">Add to Bag</Btn>
+              <Btn kind="primary" full style={{}} onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag</Btn>
               <Btn kind="ghost" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }} size="md" data-go="shop/peptosome">Detail →</Btn>
             </div>
           </article>
@@ -135,7 +135,7 @@ const HomeV1 = () => {
               </div>
             </div>
             <div style={{ marginTop: 24, display: 'flex', gap: 10 }}>
-              <Btn kind="primary" full style={{}} data-go="cart">Add to Bag</Btn>
+              <Btn kind="primary" full style={{}} onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag</Btn>
               <Btn kind="ghost" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }} size="md" data-go="shop/peptosome">Detail →</Btn>
             </div>
           </article>

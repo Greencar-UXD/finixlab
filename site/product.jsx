@@ -74,7 +74,7 @@ const ProductPage = () => {
 
             {/* CTAs */}
             <div style={{ marginTop: 22, display: 'grid', gap: 10 }}>
-              <Btn kind="primary" size="lg" full>Add to Bag · ₩96,000</Btn>
+              <Btn kind="primary" size="lg" full onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag · ₩96,000</Btn>
               <Btn kind="ghost" size="md" full style={{ color: FNX.pineInk, borderColor: FNX.pineInk }}>Subscribe & Save 15%</Btn>
             </div>
 

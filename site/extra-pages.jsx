@@ -170,13 +170,17 @@ const SearchPage = () => {
     { t:'On the Quiet Discipline of Peptides', cat:'Journal · Slow Aging', img:'assets/serum-pump.png', href:'#/journal' },
     { t:'VAMTOXIN™ Patent Story', cat:'Science', img:'assets/booster-box-front.png', href:'#/science' },
   ];
+  const [q, setQ] = React.useState('peptide');
+  const ql = q.trim().toLowerCase();
+  const shown = results.filter(r => (r.t + ' ' + r.cat).toLowerCase().includes(ql));
+  const popular = ['peptide', 'vamtoxin', 'serum', 'ritual'];
   return (
     <div style={{ width: '100%', background: FNX.cream, color: FNX.pineInk, fontFamily: FNX.sans, fontWeight: 300 }}>
       <SiteHeader variant="cream" />
       <Section bg={FNX.cream} padding="56px 40px 96px">
         <RuleLabel align="left" color={FNX.tan}>Search</RuleLabel>
         <div style={{ marginTop: 18, position: 'relative' }}>
-          <input type="search" aria-label="Search" defaultValue="peptide" placeholder="Search for prescriptions, journal entries…" style={{
+          <input type="search" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search for prescriptions, journal entries…" style={{
             ...inputStyle, fontSize: 28, padding: '18px 56px 18px 56px',
             border: `1px solid ${fnxRule(0.3)}`,
             fontFamily: '"Pretendard Variable", system-ui, sans-serif', fontWeight: 300,
@@ -184,7 +188,7 @@ const SearchPage = () => {
           <span aria-hidden="true" style={{ position: 'absolute', left: 22, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, display: 'inline-flex' }}>
             <svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
           </span>
-          <button type="button" aria-label="Clear search" style={{ position: 'absolute', right: 22, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex', border: 'none', background: 'none', padding: 0 }}>
+          <button type="button" aria-label="Clear search" onClick={() => setQ('')} style={{ position: 'absolute', right: 22, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex', border: 'none', background: 'none', padding: 0 }}>
             <svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg>
           </button>
         </div>
@@ -195,22 +199,34 @@ const SearchPage = () => {
         </div>
 
         <h2 style={{ ...T.h3, margin: '36px 0 18px', color: FNX.sage, fontSize: 16 }}>
-          "peptide" — {results.length} results
+          {ql ? `"${q}" — ${shown.length} result${shown.length === 1 ? '' : 's'}` : 'Start typing to search'}
         </h2>
-        <div style={{ display: 'grid', gap: 0 }}>
-          {results.map((r, i) => (
-            <a key={i} href={r.href} style={{ display: 'grid', gridTemplateColumns: '88px 1fr auto', gap: 24, padding: '20px 0', borderTop: `1px solid ${fnxRule(0.18)}`, color: 'inherit', textDecoration: 'none' }}>
-              <div style={{ aspectRatio: '1/1', overflow: 'hidden', background: FNX.bone, border: `1px solid ${fnxRule(0.12)}` }}>
-                <img src={r.img} alt={r.t} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div>
-                <div style={{ ...T.eyebrow, color: FNX.sage }}>{r.cat}</div>
-                <h3 style={{ ...T.h4, margin: '8px 0 0' }}>{r.t}</h3>
-              </div>
-              <span style={{ alignSelf: 'center', ...T.caption, color: FNX.sage }}>→</span>
-            </a>
-          ))}
-        </div>
+        {ql && shown.length === 0 ? (
+          <div style={{ padding: '40px 0 8px', borderTop: `1px solid ${fnxRule(0.18)}` }}>
+            <h3 style={{ ...T.h4, margin: 0, color: FNX.pineInk }}>No results for “{q}”.</h3>
+            <p style={{ ...T.body, color: FNX.sage, marginTop: 10 }}>Try a shorter term, or one of these:</p>
+            <div style={{ marginTop: 14, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {popular.map(t => (
+                <button type="button" key={t} onClick={() => setQ(t)} style={{ font: 'inherit', padding: '7px 14px', borderRadius: 999, border: `1px solid ${fnxRule(0.18)}`, color: FNX.pineInk, background: FNX.bone, fontSize: 12, cursor: 'pointer' }}>{t}</button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gap: 0 }}>
+            {shown.map((r, i) => (
+              <a key={i} href={r.href} style={{ display: 'grid', gridTemplateColumns: '88px 1fr auto', gap: 24, padding: '20px 0', borderTop: `1px solid ${fnxRule(0.18)}`, color: 'inherit', textDecoration: 'none' }}>
+                <div style={{ aspectRatio: '1/1', overflow: 'hidden', background: FNX.bone, border: `1px solid ${fnxRule(0.12)}` }}>
+                  <img src={r.img} alt={r.t} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div>
+                  <div style={{ ...T.eyebrow, color: FNX.sage }}>{r.cat}</div>
+                  <h3 style={{ ...T.h4, margin: '8px 0 0' }}>{r.t}</h3>
+                </div>
+                <span style={{ alignSelf: 'center', ...T.caption, color: FNX.sage }}>→</span>
+              </a>
+            ))}
+          </div>
+        )}
       </Section>
       <SiteFooter variant="pine" />
     </div>
@@ -385,20 +401,24 @@ const SearchMobile = () => {
     { t:'On the Quiet Discipline of Peptides', cat:'Journal · Slow Aging', img:'assets/serum-pump.png', href:'#/journal' },
     { t:'VAMTOXIN™ Patent Story', cat:'Science', img:'assets/booster-box-front.png', href:'#/science' },
   ];
+  const [q, setQ] = React.useState('peptide');
+  const ql = q.trim().toLowerCase();
+  const shown = results.filter(r => (r.t + ' ' + r.cat).toLowerCase().includes(ql));
+  const popular = ['peptide', 'vamtoxin', 'serum', 'ritual'];
   return (
     <div style={{ width: '100%', background: FNX.cream, color: FNX.pineInk, fontFamily: FNX.sans, fontWeight: 300, fontSize: 14 }}>
       <MHeader title="Search" />
       <section style={{ padding: '24px' }}>
         <RuleLabel align="left" color={FNX.tan}>Search</RuleLabel>
         <div style={{ marginTop: 12, position: 'relative' }}>
-          <input type="search" aria-label="Search" defaultValue="peptide" placeholder="Search for prescriptions, journal entries…" style={{
+          <input type="search" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search for prescriptions, journal entries…" style={{
             ...inputStyle, fontSize: 20, padding: '14px 44px 14px 44px', fontWeight: 300,
             border: `1px solid ${fnxRule(0.3)}`,
           }} />
           <span aria-hidden="true" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, display: 'inline-flex' }}>
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
           </span>
-          <button type="button" aria-label="Clear search" style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex', border: 'none', background: 'none', padding: 0 }}>
+          <button type="button" aria-label="Clear search" onClick={() => setQ('')} style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: FNX.pineInk, cursor: 'pointer', display: 'inline-flex', border: 'none', background: 'none', padding: 0 }}>
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 4l8 8M12 4l-8 8"/></svg>
           </button>
         </div>
@@ -407,8 +427,18 @@ const SearchMobile = () => {
             <span key={f} style={{ padding: '6px 12px', borderRadius: 999, border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`, color: i === 0 ? FNX.pineInk : FNX.sage, background: i === 0 ? FNX.bone : 'transparent', fontSize: 11, whiteSpace: 'nowrap' }}>{f}</span>
           ))}
         </div>
-        <h2 style={{ margin: '24px 0 12px', fontSize: 13, color: FNX.sage }}>"peptide" — {results.length} results</h2>
-        {results.map((r, i) => (
+        <h2 style={{ margin: '24px 0 12px', fontSize: 13, color: FNX.sage }}>{ql ? `"${q}" — ${shown.length} result${shown.length === 1 ? '' : 's'}` : 'Start typing to search'}</h2>
+        {ql && shown.length === 0 ? (
+          <div style={{ padding: '28px 0 8px', borderTop: `1px solid ${fnxRule(0.18)}` }}>
+            <h3 style={{ margin: 0, fontFamily: FNX.serif, fontSize: 17, fontWeight: 400, color: FNX.pineInk }}>No results for “{q}”.</h3>
+            <p style={{ margin: '8px 0 0', fontSize: 13, color: FNX.sage }}>Try a shorter term, or one of these:</p>
+            <div style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {popular.map(t => (
+                <button type="button" key={t} onClick={() => setQ(t)} style={{ font: 'inherit', padding: '6px 12px', borderRadius: 999, border: `1px solid ${fnxRule(0.18)}`, color: FNX.pineInk, background: FNX.bone, fontSize: 11, cursor: 'pointer' }}>{t}</button>
+              ))}
+            </div>
+          </div>
+        ) : shown.map((r, i) => (
           <a key={i} href={r.href} style={{ display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 14, padding: '14px 0', borderTop: `1px solid ${fnxRule(0.18)}`, color: 'inherit', textDecoration: 'none' }}>
             <div style={{ aspectRatio: '1/1', overflow: 'hidden', background: FNX.bone, border: `1px solid ${fnxRule(0.12)}` }}>
               <img src={r.img} alt={r.t} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
