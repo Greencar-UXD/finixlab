@@ -72,9 +72,8 @@ const SciencePage = () => {
 
       {/* MOLECULE FACTS */}
       <Section bg={FNX.parchment} padding="100px 40px">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64 }}>
-          <RuleLabel align="left" color={FNX.sage}>The Molecule · 02</RuleLabel>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+        <div>
+          <table style={{ width: '100%', maxWidth: 760, borderCollapse: 'collapse', fontSize: 14 }}>
             <tbody>
               {[
                 ['INCI Name', 'Acetyl Hexapeptide-8 derivative'],
