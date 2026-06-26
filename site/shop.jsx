@@ -155,7 +155,7 @@ const ShopPage = () => {
                     <Btn kind="ghost" full size="md" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }}>Notify Me →</Btn>
                   ) : (
                     <>
-                      <Btn kind="primary" full>Add to Bag</Btn>
+                      <Btn kind="primary" full onClick={() => window.fnxToast && window.fnxToast('Added to bag')}>Add to Bag</Btn>
                       <Btn kind="ghost" size="md" style={{ color: FNX.pineInk, borderColor: FNX.pineInk }}>Detail →</Btn>
                     </>
                   )}
