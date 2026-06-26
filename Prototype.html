@@ -181,7 +181,7 @@
               location.hash = '#/' + el.dataset.go;
               return;
             }
-            if (el.tagName === 'A') {
+            if (el.tagName === 'A' || el.tagName === 'BUTTON') {
               const href = el.getAttribute('href') || '';
               if (href.startsWith('#/')) return;   // already valid hash route
               const txt = (el.textContent || '').trim().toLowerCase();
@@ -222,7 +222,7 @@
       const isMobile = useMobile();
       const routes = isMobile ? mobileRoutes : desktopRoutes;
       const Page = routes[hash] || (isMobile ? mobileRoutes['404'] : desktopRoutes['404']);
-      return <Page />;
+      return <main id="main"><Page /></main>;
     };
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);

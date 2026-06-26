@@ -310,7 +310,9 @@ const HomeV1 = () => {
                 <img src={j.imgSrc} alt={j.h}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: j.pos, display: 'block' }} />
               </div>
-              <h3 style={{ margin: '10px 0 8px', fontFamily: FNX.serif, fontWeight: 300, fontSize: 24, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{j.h}</h3>
+              <h3 style={{ margin: '10px 0 8px', fontFamily: FNX.serif, fontWeight: 300, fontSize: 24, letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+                <a href="#/journal" data-go="journal" style={{ color: 'inherit', textDecoration: 'none' }}>{j.h}</a>
+              </h3>
               <p style={{ margin: 0, fontSize: 13, color: FNX.sage, lineHeight: 1.7 }}>{j.d}</p>
             </article>
           ))}

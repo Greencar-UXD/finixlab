@@ -275,7 +275,7 @@ const ProductPage = () => {
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: FNX.sage }}>
             <span>Filter:</span>
             {['All', 'Photo', '5★', '4★'].map((f, i) => (
-              <span key={f} style={{ padding: '6px 12px', border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`, color: i === 0 ? FNX.pineInk : FNX.sage, borderRadius: 999 }}>{f}</span>
+              <button type="button" key={f} style={{ font: 'inherit', padding: '6px 12px', border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`, color: i === 0 ? FNX.pineInk : FNX.sage, borderRadius: 999, background: 'transparent', cursor: 'pointer' }}>{f}</button>
             ))}
           </div>
         </div>

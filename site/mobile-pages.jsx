@@ -10,18 +10,18 @@ const MHeader = ({ title }) => {
       <a href="#/home" aria-label="Finixlab — Home" style={{ display: 'flex', textDecoration: 'none' }}>
         <img src="assets/fnxlab-logo.png" alt="Finixlab" style={{ height: 16 }} />
       </a>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 18, color: FNX.pineInk }}>
-        <a href="#/search" aria-label="Search" style={{ color: 'inherit', display: 'inline-flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 2, color: FNX.pineInk, marginRight: -10 }}>
+        <a href="#/search" aria-label="Search" style={{ color: 'inherit', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
         </a>
-        <a href="#/account" aria-label="Account" style={{ color: 'inherit', display: 'inline-flex' }}>
+        <a href="#/account" aria-label="Account" style={{ color: 'inherit', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4"><circle cx="8" cy="5.5" r="2.5"/><path d="M3 14c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5"/></svg>
         </a>
-        <a href="#/cart" aria-label="Bag" style={{ color: 'inherit', display: 'inline-flex', position: 'relative' }}>
+        <a href="#/cart" aria-label="Bag" style={{ color: 'inherit', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, position: 'relative' }}>
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M3 5h10l-1 9H4L3 5z"/><path d="M6 5V3.5a2 2 0 014 0V5"/></svg>
-          <span style={{ position: 'absolute', top: -1, right: -1, width: 5, height: 5, borderRadius: '50%', background: FNX.labRed }}/>
+          <span style={{ position: 'absolute', top: 10, right: 10, width: 5, height: 5, borderRadius: '50%', background: FNX.labRed }}/>
         </a>
-        <button onClick={() => setOpen(true)} aria-label="Menu" style={{ background: 'none', border: 'none', padding: 0, color: FNX.pineInk, fontSize: 20, lineHeight: 1, cursor: 'pointer', display: 'inline-flex' }}>≡</button>
+        <button onClick={() => setOpen(true)} aria-label="Menu" style={{ background: 'none', border: 'none', padding: 0, color: FNX.pineInk, fontSize: 20, lineHeight: 1, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>≡</button>
       </div>
     </header>
     {title && <div style={{ padding: '14px 24px', borderBottom: `1px solid ${fnxRule(0.1)}`, fontFamily: FNX.serif, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: FNX.pineInk }}>{title}</div>}
@@ -37,7 +37,7 @@ const MHeader = ({ title }) => {
         <div style={{ display: 'grid', gridTemplateColumns: '24px 1fr 24px', alignItems: 'center', marginBottom: 'clamp(16px, 5vw, 32px)' }}>
           <span style={{ fontFamily: FNX.mono, fontSize: 11, color: 'rgba(244,239,224,0.72)', letterSpacing: '0.18em' }}>MENU</span>
           <div/>
-          <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', padding: 0, color: FNX.cream, fontSize: 24, lineHeight: 1, cursor: 'pointer' }}>×</button>
+          <button onClick={() => setOpen(false)} aria-label="Close menu" style={{ background: 'none', border: 'none', padding: 0, color: FNX.cream, fontSize: 24, lineHeight: 1, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44, margin: '-10px -10px -10px auto' }}>×</button>
         </div>
         <nav style={{ display: 'flex', flexDirection: 'column', flex: 1, marginTop: 'clamp(8px, 3vw, 24px)' }}>
           {[
@@ -134,13 +134,14 @@ const ShopMobile = () => {
       <section style={{ padding: '20px 24px', borderBottom: `1px solid ${fnxRule(0.18)}` }}>
         <div style={{ display: 'flex', gap: 6, overflowX: 'auto' }}>
           {['All','Booster','Serum','Cream','Sets'].map((c, i) => (
-            <span key={c} style={{
+            <button type="button" key={c} style={{
+              font: 'inherit',
               padding: '7px 14px', borderRadius: 999,
               border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`,
               color: i === 0 ? FNX.pineInk : FNX.sage,
               background: i === 0 ? FNX.bone : 'transparent',
-              fontSize: 11, letterSpacing: '0.06em', whiteSpace: 'nowrap',
-            }}>{c}</span>
+              fontSize: 11, letterSpacing: '0.06em', whiteSpace: 'nowrap', cursor: 'pointer',
+            }}>{c}</button>
           ))}
         </div>
       </section>
@@ -318,10 +319,10 @@ const ProductMobile = () => (
       {/* quantity */}
       <div style={{ marginTop: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${fnxRule(0.18)}`, paddingBottom: 16 }}>
         <span style={{ fontFamily: FNX.serif, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: FNX.sage }}>Quantity</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, border: `1px solid ${fnxRule(0.2)}`, padding: '4px 10px' }}>
-          <button style={{ background: 'none', border: 'none', fontSize: 16, padding: '4px 6px', cursor: 'pointer', color: FNX.pineInk }}>−</button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, border: `1px solid ${fnxRule(0.2)}`, padding: '0 4px' }}>
+          <button aria-label="Decrease quantity" style={{ background: 'none', border: 'none', fontSize: 16, cursor: 'pointer', color: FNX.pineInk, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>−</button>
           <span style={{ fontFamily: FNX.serif, fontSize: 14, minWidth: 14, textAlign: 'center' }}>1</span>
-          <button style={{ background: 'none', border: 'none', fontSize: 16, padding: '4px 6px', cursor: 'pointer', color: FNX.pineInk }}>+</button>
+          <button aria-label="Increase quantity" style={{ background: 'none', border: 'none', fontSize: 16, cursor: 'pointer', color: FNX.pineInk, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 44, minHeight: 44 }}>+</button>
         </div>
       </div>
 
@@ -739,12 +740,14 @@ const JournalMobile = () => {
       <section style={{ padding: '20px 24px', borderBottom: `1px solid ${fnxRule(0.18)}` }}>
         <div style={{ display: 'flex', gap: 6, overflowX: 'auto', alignItems: 'center', fontFamily: FNX.serif, fontSize: 11, letterSpacing: '0.06em' }}>
           {cats.map((c, i) => (
-            <span key={c} style={{
+            <button type="button" key={c} style={{
+              font: 'inherit',
               padding: '7px 14px', borderRadius: 999, whiteSpace: 'nowrap', textTransform: 'uppercase',
               border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`,
               color: i === 0 ? FNX.pineInk : FNX.sage,
               background: i === 0 ? FNX.bone : 'transparent',
-            }}>{c}</span>
+              cursor: 'pointer',
+            }}>{c}</button>
           ))}
         </div>
       </section>
@@ -781,7 +784,9 @@ const JournalMobile = () => {
               <div style={{ aspectRatio: '4/5', overflow: 'hidden', position: 'relative', background: FNX.bone, border: `1px solid ${fnxRule(0.12)}` }}>
                 <img src={a.img} alt={a.h} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: a.pos }} />
               </div>
-              <h3 style={{ margin: '12px 0 8px', fontFamily: FNX.serif, fontWeight: 300, fontSize: 20, lineHeight: 1.2, letterSpacing: '-0.01em' }}>{a.h}</h3>
+              <h3 style={{ margin: '12px 0 8px', fontFamily: FNX.serif, fontWeight: 300, fontSize: 20, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+                <a href="#/journal" data-go="journal" style={{ color: 'inherit', textDecoration: 'none' }}>{a.h}</a>
+              </h3>
               <span style={{ fontFamily: FNX.serif, fontSize: 11, letterSpacing: '0.14em', color: FNX.sage, textTransform: 'uppercase' }}>Read →</span>
             </article>
           ))}
@@ -790,13 +795,15 @@ const JournalMobile = () => {
         {/* pagination */}
         <div style={{ marginTop: 40, display: 'flex', justifyContent: 'center', gap: 8, fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.14em' }}>
           {['‹', '01', '02', '03', '04', '›'].map((p, i) => (
-            <span key={i} style={{
-              minWidth: 36, height: 36, padding: '0 10px',
+            <button type="button" key={i} style={{
+              font: 'inherit',
+              minWidth: 44, height: 44, padding: '0 10px',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               border: `1px solid ${i === 1 ? FNX.pineInk : fnxRule(0.18)}`,
               color: i === 1 ? FNX.pineInk : FNX.sage,
               background: i === 1 ? FNX.bone : 'transparent',
-            }}>{p}</span>
+              cursor: 'pointer',
+            }}>{p}</button>
           ))}
         </div>
       </section>

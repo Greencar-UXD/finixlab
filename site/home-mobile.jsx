@@ -248,7 +248,9 @@ const HomeMobile = () => {
               <img src={j.img} alt={j.h} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: j.pos }} />
             </div>
             <div>
-              <h4 style={{ margin: 0, fontFamily: FNX.serif, fontWeight: 300, fontSize: 16, lineHeight: 1.25 }}>{j.h}</h4>
+              <h4 style={{ margin: 0, fontFamily: FNX.serif, fontWeight: 300, fontSize: 16, lineHeight: 1.25 }}>
+                <a href="#/journal" data-go="journal" style={{ color: 'inherit', textDecoration: 'none' }}>{j.h}</a>
+              </h4>
               <p style={{ margin: '8px 0 0', fontSize: 12, color: FNX.sage, lineHeight: 1.6 }}>{j.d}</p>
             </div>
           </article>

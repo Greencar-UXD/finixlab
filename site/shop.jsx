@@ -93,19 +93,20 @@ const ShopPage = () => {
             <span style={{ fontFamily: FNX.serif, fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: FNX.sage }}>{k}</span>
             <div style={{ display: 'flex', gap: 6 }}>
               {v.map((f, i) => (
-                <span key={f} style={{
+                <button type="button" key={f} style={{
+                  font: 'inherit',
                   padding: '6px 12px', borderRadius: 999,
                   border: `1px solid ${i === 0 ? FNX.pineInk : fnxRule(0.18)}`,
                   color: i === 0 ? FNX.pineInk : FNX.sage,
                   background: i === 0 ? FNX.bone : 'transparent',
                   fontSize: 12, letterSpacing: '0.06em', cursor: 'pointer',
-                }}>{f}</span>
+                }}>{f}</button>
               ))}
             </div>
           </div>
         ))}
         <span style={{ flex: 1 }}/>
-        <span style={{ fontFamily: FNX.mono, fontSize: 12, color: FNX.sage, letterSpacing: '0.14em' }}>SORT · FEATURED ▾</span>
+        <button type="button" style={{ fontFamily: FNX.mono, fontSize: 12, color: FNX.sage, letterSpacing: '0.14em', border: 'none', background: 'transparent', cursor: 'pointer', padding: 0 }}>SORT · FEATURED ▾</button>
       </div>
 
       {/* PRODUCT GRID */}
@@ -117,7 +118,9 @@ const ShopPage = () => {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
           {products.map(p => (
-            <div key={p.n} data-go="shop/peptosome" style={{
+            <div key={p.n} data-go="shop/peptosome" role="link" tabIndex={0}
+              onKeyDown={(e)=>{ if(e.key==='Enter'){ location.hash = '#/shop/peptosome'; } }}
+              style={{
               textDecoration: 'none', color: 'inherit', cursor: 'pointer',
               background: FNX.bone, border: `1px solid ${fnxRule(0.12)}`,
               opacity: p.muted ? 0.78 : 1, position: 'relative', display: 'block',
